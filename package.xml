@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package format="1">
+  <name>FastenerVarSets</name>
+  <description>Native VarSet snapshots, readable JSON, and per-fastener print allowances.</description>
+  <version>0.1.0</version>
+  <date>2026-11-14</date>
+  <maintainer>Franz</maintainer>
+  <license file="LICENSE">MIT</license>
+  <url type="repository" branch="main">https://github.com/ka-no-creativity/freecad-fastener-varsets</url>
+  <freecadmin>1.0.0</freecadmin>
+  <content>
+    <workbench>
+      <name>Fastener VarSets</name>
+      <classname>FastenerVarSetsWorkbench</classname>
+      <subdirectory>./</subdirectory>
+    </workbench>
+  </content>
+</package>

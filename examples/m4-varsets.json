@@ -1,0 +1,477 @@
+{
+  "format": "freecad-varsets",
+  "version": 1,
+  "notes": "Snapshot values use mm and degrees. Local expressions are retained; external expressions are flattened.",
+  "varsets": [
+    {
+      "name": "M4_SocketCap",
+      "label": "M4_SocketCap",
+      "properties": [
+        {
+          "name": "FastenerKind",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "FastenerKind",
+          "value": "socket_cap"
+        },
+        {
+          "name": "HeadDepthAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Head recess depth: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.2,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "HeadDiameter",
+          "value": 7.0,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadDiameterAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Head recess diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.5,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadHeight",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "HeadHeight",
+          "value": 4.0,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadPocketDepth",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "HeadPocketDepth",
+          "value": 4.2,
+          "unit": "mm",
+          "expression": "HeadHeight + HeadDepthAllowance"
+        },
+        {
+          "name": "HeadPocketDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "HeadPocketDiameter",
+          "value": 7.5,
+          "unit": "mm",
+          "expression": "HeadDiameter + HeadDiameterAllowance"
+        },
+        {
+          "name": "HoleAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Through-hole diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.5,
+          "unit": "mm"
+        },
+        {
+          "name": "HoleDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Through-hole diameter: nominal diameter plus total hole allowance.",
+          "value": 4.5,
+          "unit": "mm",
+          "expression": "NominalDiameter + HoleAllowance"
+        },
+        {
+          "name": "LibraryId",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "LibraryId",
+          "value": "DIN912_M4"
+        },
+        {
+          "name": "NominalDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Nominal metal thread diameter, without print allowance.",
+          "value": 4.0,
+          "unit": "mm"
+        },
+        {
+          "name": "Pitch",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Metric coarse thread pitch.",
+          "value": 0.7,
+          "unit": "mm"
+        },
+        {
+          "name": "SocketAcrossFlats",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "SocketAcrossFlats",
+          "value": 3.0,
+          "unit": "mm"
+        },
+        {
+          "name": "Standard",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "Standard",
+          "value": "DIN 912"
+        },
+        {
+          "name": "TapDrillDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Base tap-drill diameter (Kernloch) for a cutting tap. Not a forming-tap hole or the theoretical minor diameter.",
+          "value": 3.3,
+          "unit": "mm"
+        },
+        {
+          "name": "TapHoleAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Tap-drill / Kernloch diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.0,
+          "unit": "mm"
+        },
+        {
+          "name": "TapHoleDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Hole to model before cutting the thread: tap drill plus this item's tap allowance.",
+          "value": 3.3,
+          "unit": "mm",
+          "expression": "TapDrillDiameter + TapHoleAllowance"
+        },
+        {
+          "name": "ThreadSize",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "ThreadSize",
+          "value": "M4"
+        }
+      ]
+    },
+    {
+      "name": "M4_Countersunk",
+      "label": "M4_Countersunk",
+      "properties": [
+        {
+          "name": "CountersinkAngle",
+          "type": "App::PropertyAngle",
+          "group": "Dimensions",
+          "description": "CountersinkAngle",
+          "value": 90.0,
+          "unit": "deg"
+        },
+        {
+          "name": "FastenerKind",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "FastenerKind",
+          "value": "countersunk"
+        },
+        {
+          "name": "HeadDepthAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Head recess depth: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.2,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "HeadDiameter",
+          "value": 8.0,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadDiameterAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Head recess diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.5,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadHeight",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "HeadHeight",
+          "value": 2.3,
+          "unit": "mm"
+        },
+        {
+          "name": "HeadPocketDepth",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "90-degree (or selected angle) countersink geometry. Depth allowance expands the mouth while preserving the cone angle.",
+          "value": 2.2000000000000006,
+          "unit": "mm",
+          "expression": "(HeadPocketDiameter - HoleDiameter) / (2 * tan(CountersinkAngle / 2))"
+        },
+        {
+          "name": "HeadPocketDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "90-degree (or selected angle) countersink geometry. Depth allowance expands the mouth while preserving the cone angle.",
+          "value": 8.9,
+          "unit": "mm",
+          "expression": "HeadDiameter + HeadDiameterAllowance + 2 * HeadDepthAllowance * tan(CountersinkAngle / 2)"
+        },
+        {
+          "name": "HoleAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Through-hole diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.5,
+          "unit": "mm"
+        },
+        {
+          "name": "HoleDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Through-hole diameter: nominal diameter plus total hole allowance.",
+          "value": 4.5,
+          "unit": "mm",
+          "expression": "NominalDiameter + HoleAllowance"
+        },
+        {
+          "name": "LibraryId",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "LibraryId",
+          "value": "DIN7991_M4"
+        },
+        {
+          "name": "NominalDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Nominal metal thread diameter, without print allowance.",
+          "value": 4.0,
+          "unit": "mm"
+        },
+        {
+          "name": "Pitch",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Metric coarse thread pitch.",
+          "value": 0.7,
+          "unit": "mm"
+        },
+        {
+          "name": "SocketAcrossFlats",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "SocketAcrossFlats",
+          "value": 2.5,
+          "unit": "mm"
+        },
+        {
+          "name": "Standard",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "Standard",
+          "value": "DIN 7991"
+        },
+        {
+          "name": "TapDrillDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Base tap-drill diameter (Kernloch) for a cutting tap. Not a forming-tap hole or the theoretical minor diameter.",
+          "value": 3.3,
+          "unit": "mm"
+        },
+        {
+          "name": "TapHoleAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Tap-drill / Kernloch diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.0,
+          "unit": "mm"
+        },
+        {
+          "name": "TapHoleDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Hole to model before cutting the thread: tap drill plus this item's tap allowance.",
+          "value": 3.3,
+          "unit": "mm",
+          "expression": "TapDrillDiameter + TapHoleAllowance"
+        },
+        {
+          "name": "ThreadSize",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "ThreadSize",
+          "value": "M4"
+        }
+      ]
+    },
+    {
+      "name": "M4_Nut",
+      "label": "M4_Nut",
+      "properties": [
+        {
+          "name": "FastenerKind",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "FastenerKind",
+          "value": "hex_nut"
+        },
+        {
+          "name": "HoleAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Through-hole diameter: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.5,
+          "unit": "mm"
+        },
+        {
+          "name": "HoleDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Through-hole diameter: nominal diameter plus total hole allowance.",
+          "value": 4.5,
+          "unit": "mm",
+          "expression": "NominalDiameter + HoleAllowance"
+        },
+        {
+          "name": "LibraryId",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "LibraryId",
+          "value": "DIN934_M4"
+        },
+        {
+          "name": "LooseFitAcrossFlats",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Loose hex pocket width across opposite FLATS.",
+          "value": 7.3,
+          "unit": "mm",
+          "expression": "NutAcrossFlats + LooseFitAllowance"
+        },
+        {
+          "name": "LooseFitAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Loose pocket across flats: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.3,
+          "unit": "mm"
+        },
+        {
+          "name": "LooseFitDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Loose pocket diameter across CORNERS. Use half for a hexagon's circumradius or use as a round pocket diameter.",
+          "value": 8.429313930168536,
+          "unit": "mm",
+          "expression": "LooseFitAcrossFlats * 2 / sqrt(3)"
+        },
+        {
+          "name": "NominalDiameter",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Nominal metal thread diameter, without print allowance.",
+          "value": 4.0,
+          "unit": "mm"
+        },
+        {
+          "name": "NutAcrossCorners",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Ideal regular hexagon across corners, computed from nominal across flats; not catalog e minimum.",
+          "value": 8.082903768654761,
+          "unit": "mm",
+          "expression": "NutAcrossFlats * 2 / sqrt(3)"
+        },
+        {
+          "name": "NutAcrossFlats",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "NutAcrossFlats",
+          "value": 7.0,
+          "unit": "mm"
+        },
+        {
+          "name": "NutDepthAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Nut pocket depth: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": 0.2,
+          "unit": "mm"
+        },
+        {
+          "name": "NutHeight",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "NutHeight",
+          "value": 3.2,
+          "unit": "mm"
+        },
+        {
+          "name": "NutPocketDepth",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "NutPocketDepth",
+          "value": 3.4000000000000004,
+          "unit": "mm",
+          "expression": "NutHeight + NutDepthAllowance"
+        },
+        {
+          "name": "Pitch",
+          "type": "App::PropertyLength",
+          "group": "Dimensions",
+          "description": "Metric coarse thread pitch.",
+          "value": 0.7,
+          "unit": "mm"
+        },
+        {
+          "name": "PressFitAcrossFlats",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Press hex pocket width across opposite FLATS.",
+          "value": 6.9,
+          "unit": "mm",
+          "expression": "NutAcrossFlats + PressFitAllowance"
+        },
+        {
+          "name": "PressFitAllowance",
+          "type": "App::PropertyDistance",
+          "group": "Allowances",
+          "description": "Press pocket across flats: total mm added to this dimension, not per side. Negative values reduce it.",
+          "value": -0.1,
+          "unit": "mm"
+        },
+        {
+          "name": "PressFitDiameter",
+          "type": "App::PropertyLength",
+          "group": "Cutouts",
+          "description": "Press pocket diameter across CORNERS. Use half for a hexagon's circumradius or use as a round pocket diameter.",
+          "value": 7.967433714816837,
+          "unit": "mm",
+          "expression": "PressFitAcrossFlats * 2 / sqrt(3)"
+        },
+        {
+          "name": "Standard",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "Standard",
+          "value": "DIN 934"
+        },
+        {
+          "name": "ThreadSize",
+          "type": "App::PropertyString",
+          "group": "Source",
+          "description": "ThreadSize",
+          "value": "M4"
+        }
+      ]
+    }
+  ],
+  "flattened_expressions": []
+}

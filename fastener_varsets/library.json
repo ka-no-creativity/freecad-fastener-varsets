@@ -1,0 +1,250 @@
+{
+  "format": "fastener-varsets-library",
+  "version": 1,
+  "units": "mm",
+  "notes": "DIN dimensions for metal fasteners. Allowances are stored separately per item. Across-corners dimensions are calculated for an ideal regular hexagon; not the catalog minimum e dimension. Tap-drill sizes are for cutting taps, not forming taps.",
+  "sources": [
+    {
+      "standard": "DIN 912",
+      "url": "https://www.awh.eu/de/downloads-456.html?file=files/Demosystem/Dokumente/DIN912.pdf",
+      "table": "Schrauben-Jaeger DIN 912, page 86; DK, K, S and P"
+    },
+    {
+      "standard": "DIN 7991",
+      "url": "https://www.aspenfasteners.com/content/pdf/Metric_DIN_7991_spec.pdf",
+      "table": "Page 1, D1, K and S"
+    },
+    {
+      "standard": "DIN 934",
+      "url": "https://www.trojansf.co.uk/standards/din-934",
+      "table": "Nominal maximum across flats s and thickness h (DIN values, not ISO 4032 heights)"
+    },
+    {
+      "standard": "Coarse cutting-tap drill",
+      "url": "https://www.thurmer.com/special-sizes-faq/",
+      "table": "Metric coarse tap drill sizes: cutting taps"
+    }
+  ],
+  "items": [
+    {
+      "id": "DIN912_M3",
+      "label": "M3 Socket cap (DIN 912)",
+      "kind": "socket_cap",
+      "standard": "DIN 912",
+      "size": "M3",
+      "dimensions": {
+        "NominalDiameter": 3,
+        "Pitch": 0.5,
+        "HeadDiameter": 5.5,
+        "HeadHeight": 3,
+        "SocketAcrossFlats": 2.5,
+        "TapDrillDiameter": 2.5
+      }
+    },
+    {
+      "id": "DIN912_M4",
+      "label": "M4 Socket cap (DIN 912)",
+      "kind": "socket_cap",
+      "standard": "DIN 912",
+      "size": "M4",
+      "dimensions": {
+        "NominalDiameter": 4,
+        "Pitch": 0.7,
+        "HeadDiameter": 7,
+        "HeadHeight": 4,
+        "SocketAcrossFlats": 3,
+        "TapDrillDiameter": 3.3
+      }
+    },
+    {
+      "id": "DIN912_M5",
+      "label": "M5 Socket cap (DIN 912)",
+      "kind": "socket_cap",
+      "standard": "DIN 912",
+      "size": "M5",
+      "dimensions": {
+        "NominalDiameter": 5,
+        "Pitch": 0.8,
+        "HeadDiameter": 8.5,
+        "HeadHeight": 5,
+        "SocketAcrossFlats": 4,
+        "TapDrillDiameter": 4.2
+      }
+    },
+    {
+      "id": "DIN912_M6",
+      "label": "M6 Socket cap (DIN 912)",
+      "kind": "socket_cap",
+      "standard": "DIN 912",
+      "size": "M6",
+      "dimensions": {
+        "NominalDiameter": 6,
+        "Pitch": 1,
+        "HeadDiameter": 10,
+        "HeadHeight": 6,
+        "SocketAcrossFlats": 5,
+        "TapDrillDiameter": 5
+      }
+    },
+    {
+      "id": "DIN912_M8",
+      "label": "M8 Socket cap (DIN 912)",
+      "kind": "socket_cap",
+      "standard": "DIN 912",
+      "size": "M8",
+      "dimensions": {
+        "NominalDiameter": 8,
+        "Pitch": 1.25,
+        "HeadDiameter": 13,
+        "HeadHeight": 8,
+        "SocketAcrossFlats": 6,
+        "TapDrillDiameter": 6.8
+      }
+    },
+    {
+      "id": "DIN7991_M3",
+      "label": "M3 Countersunk (DIN 7991)",
+      "kind": "countersunk",
+      "standard": "DIN 7991",
+      "size": "M3",
+      "dimensions": {
+        "NominalDiameter": 3,
+        "Pitch": 0.5,
+        "HeadDiameter": 6,
+        "HeadHeight": 1.7,
+        "SocketAcrossFlats": 2,
+        "TapDrillDiameter": 2.5,
+        "CountersinkAngle": 90
+      }
+    },
+    {
+      "id": "DIN7991_M4",
+      "label": "M4 Countersunk (DIN 7991)",
+      "kind": "countersunk",
+      "standard": "DIN 7991",
+      "size": "M4",
+      "dimensions": {
+        "NominalDiameter": 4,
+        "Pitch": 0.7,
+        "HeadDiameter": 8,
+        "HeadHeight": 2.3,
+        "SocketAcrossFlats": 2.5,
+        "TapDrillDiameter": 3.3,
+        "CountersinkAngle": 90
+      }
+    },
+    {
+      "id": "DIN7991_M5",
+      "label": "M5 Countersunk (DIN 7991)",
+      "kind": "countersunk",
+      "standard": "DIN 7991",
+      "size": "M5",
+      "dimensions": {
+        "NominalDiameter": 5,
+        "Pitch": 0.8,
+        "HeadDiameter": 10,
+        "HeadHeight": 2.8,
+        "SocketAcrossFlats": 3,
+        "TapDrillDiameter": 4.2,
+        "CountersinkAngle": 90
+      }
+    },
+    {
+      "id": "DIN7991_M6",
+      "label": "M6 Countersunk (DIN 7991)",
+      "kind": "countersunk",
+      "standard": "DIN 7991",
+      "size": "M6",
+      "dimensions": {
+        "NominalDiameter": 6,
+        "Pitch": 1,
+        "HeadDiameter": 12,
+        "HeadHeight": 3.3,
+        "SocketAcrossFlats": 4,
+        "TapDrillDiameter": 5,
+        "CountersinkAngle": 90
+      }
+    },
+    {
+      "id": "DIN7991_M8",
+      "label": "M8 Countersunk (DIN 7991)",
+      "kind": "countersunk",
+      "standard": "DIN 7991",
+      "size": "M8",
+      "dimensions": {
+        "NominalDiameter": 8,
+        "Pitch": 1.25,
+        "HeadDiameter": 16,
+        "HeadHeight": 4.4,
+        "SocketAcrossFlats": 5,
+        "TapDrillDiameter": 6.8,
+        "CountersinkAngle": 90
+      }
+    },
+    {
+      "id": "DIN934_M3",
+      "label": "M3 Hex nut (DIN 934)",
+      "kind": "hex_nut",
+      "standard": "DIN 934",
+      "size": "M3",
+      "dimensions": {
+        "NominalDiameter": 3,
+        "Pitch": 0.5,
+        "NutAcrossFlats": 5.5,
+        "NutHeight": 2.4
+      }
+    },
+    {
+      "id": "DIN934_M4",
+      "label": "M4 Hex nut (DIN 934)",
+      "kind": "hex_nut",
+      "standard": "DIN 934",
+      "size": "M4",
+      "dimensions": {
+        "NominalDiameter": 4,
+        "Pitch": 0.7,
+        "NutAcrossFlats": 7,
+        "NutHeight": 3.2
+      }
+    },
+    {
+      "id": "DIN934_M5",
+      "label": "M5 Hex nut (DIN 934)",
+      "kind": "hex_nut",
+      "standard": "DIN 934",
+      "size": "M5",
+      "dimensions": {
+        "NominalDiameter": 5,
+        "Pitch": 0.8,
+        "NutAcrossFlats": 8,
+        "NutHeight": 4
+      }
+    },
+    {
+      "id": "DIN934_M6",
+      "label": "M6 Hex nut (DIN 934)",
+      "kind": "hex_nut",
+      "standard": "DIN 934",
+      "size": "M6",
+      "dimensions": {
+        "NominalDiameter": 6,
+        "Pitch": 1,
+        "NutAcrossFlats": 10,
+        "NutHeight": 5
+      }
+    },
+    {
+      "id": "DIN934_M8",
+      "label": "M8 Hex nut (DIN 934)",
+      "kind": "hex_nut",
+      "standard": "DIN 934",
+      "size": "M8",
+      "dimensions": {
+        "NominalDiameter": 8,
+        "Pitch": 1.25,
+        "NutAcrossFlats": 13,
+        "NutHeight": 6.5
+      }
+    }
+  ]
+}

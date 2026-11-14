@@ -1,0 +1,5 @@
+"""Optional launcher: Macro > Macros > FastenerVarSets > Execute."""
+
+from fastener_varsets.ui import generate
+
+generate()
