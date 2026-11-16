@@ -23,6 +23,11 @@
       "standard": "Coarse cutting-tap drill",
       "url": "https://www.thurmer.com/special-sizes-faq/",
       "table": "Metric coarse tap drill sizes: cutting taps"
+    },
+    {
+      "standard": "CNC Kitchen",
+      "url": "https://cnckitchen.com/s/CNCKitchen_Heat-Set-Insert-Dimensions-and-Design-Guidelines.pdf",
+      "table": "Dimensions & Design Guidelines, page 2: metric standard-length inserts; L, D1, D2, W; blind-hole depth L + 1 mm"
     }
   ],
   "items": [
@@ -245,6 +250,99 @@
         "NutAcrossFlats": 13,
         "NutHeight": 6.5
       }
+    },
+    {
+      "id": "CNCKITCHEN_M3",
+      "label": "M3 Heat insert (CNC Kitchen, 5.7 mm)",
+      "kind": "heat_insert",
+      "standard": "CNC Kitchen",
+      "size": "M3",
+      "manufacturer": "CNC Kitchen",
+      "model": "M3 x 5.7",
+      "dimensions": {
+        "NominalDiameter": 3,
+        "Pitch": 0.5,
+        "InsertLength": 5.7,
+        "InsertOutsideDiameter": 4.6,
+        "RecommendedHoleDiameter": 4.0,
+        "RecommendedHoleDepth": 6.7,
+        "MinimumWallThickness": 1.6
+      }
+    },
+    {
+      "id": "CNCKITCHEN_M4",
+      "label": "M4 Heat insert (CNC Kitchen, 8.1 mm)",
+      "kind": "heat_insert",
+      "standard": "CNC Kitchen",
+      "size": "M4",
+      "manufacturer": "CNC Kitchen",
+      "model": "M4 x 8.1",
+      "dimensions": {
+        "NominalDiameter": 4,
+        "Pitch": 0.7,
+        "InsertLength": 8.1,
+        "InsertOutsideDiameter": 6.3,
+        "RecommendedHoleDiameter": 5.7,
+        "RecommendedHoleDepth": 9.1,
+        "MinimumWallThickness": 2.1
+      }
+    },
+    {
+      "id": "CNCKITCHEN_M5",
+      "label": "M5 Heat insert (CNC Kitchen, 9.5 mm)",
+      "kind": "heat_insert",
+      "standard": "CNC Kitchen",
+      "size": "M5",
+      "manufacturer": "CNC Kitchen",
+      "model": "M5 x 9.5",
+      "dimensions": {
+        "NominalDiameter": 5,
+        "Pitch": 0.8,
+        "InsertLength": 9.5,
+        "InsertOutsideDiameter": 7.1,
+        "RecommendedHoleDiameter": 6.5,
+        "RecommendedHoleDepth": 10.5,
+        "MinimumWallThickness": 2.6
+      }
+    },
+    {
+      "id": "CNCKITCHEN_M6",
+      "label": "M6 Heat insert (CNC Kitchen, 12.7 mm)",
+      "kind": "heat_insert",
+      "standard": "CNC Kitchen",
+      "size": "M6",
+      "manufacturer": "CNC Kitchen",
+      "model": "M6 x 12.7",
+      "dimensions": {
+        "NominalDiameter": 6,
+        "Pitch": 1,
+        "InsertLength": 12.7,
+        "InsertOutsideDiameter": 8.7,
+        "RecommendedHoleDiameter": 8.1,
+        "RecommendedHoleDepth": 13.7,
+        "MinimumWallThickness": 3.3
+      }
+    },
+    {
+      "id": "CNCKITCHEN_M8",
+      "label": "M8 Heat insert (CNC Kitchen, 12.7 mm)",
+      "kind": "heat_insert",
+      "standard": "CNC Kitchen",
+      "size": "M8",
+      "manufacturer": "CNC Kitchen",
+      "model": "M8 x 12.7",
+      "dimensions": {
+        "NominalDiameter": 8,
+        "Pitch": 1.25,
+        "InsertLength": 12.7,
+        "InsertOutsideDiameter": 10.2,
+        "RecommendedHoleDiameter": 9.7,
+        "RecommendedHoleDepth": 13.7,
+        "MinimumWallThickness": 4.5
+      }
     }
+  ],
+  "upgrades": [
+    "cnc-kitchen-standard-inserts-v1"
   ]
 }

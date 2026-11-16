@@ -8,7 +8,7 @@ from pathlib import Path
 import tempfile
 
 KINDS = {"socket_cap": "Socket head cap / DIN 912", "countersunk": "Countersunk / DIN 7991",
-         "hex_nut": "Hex nut / DIN 934"}
+         "hex_nut": "Hex nut / DIN 934", "heat_insert": "Heat insert / CNC Kitchen"}
 # key, display label, initial value. All additions are total dimensions, not per side.
 COMMON = [("HoleAllowance", "Through-hole diameter", 0.5)]
 SCREW = [("HeadDiameterAllowance", "Head recess diameter", 0.5),
@@ -17,10 +17,27 @@ SCREW = [("HeadDiameterAllowance", "Head recess diameter", 0.5),
 NUT = [("LooseFitAllowance", "Loose pocket across flats", 0.3),
        ("PressFitAllowance", "Press pocket across flats", -0.1),
        ("NutDepthAllowance", "Nut pocket depth", 0.2)]
+INSERT = [("InsertDiameterAllowance", "Insert installation-hole diameter", 0.0),
+          ("InsertDepthAllowance", "Insert pocket depth", 0.0)]
+INSERT_UPGRADE = "cnc-kitchen-standard-inserts-v1"
 
 
 def fields(kind):
-    return COMMON + (NUT if kind == "hex_nut" else SCREW)
+    common = [("HoleAllowance", "Screw clearance-hole diameter", 0.5)] if kind == "heat_insert" else COMMON
+    return common + {"hex_nut": NUT, "heat_insert": INSERT,
+                     "socket_cap": SCREW, "countersunk": SCREW}[kind]
+
+
+def dimension_fields(kind):
+    """Canonical base dimensions, shared by library validation and project reads."""
+    result = ["NominalDiameter", "Pitch"]
+    if kind == "hex_nut":
+        return result + ["NutAcrossFlats", "NutHeight"]
+    if kind == "heat_insert":
+        return result + ["InsertLength", "InsertOutsideDiameter", "RecommendedHoleDiameter",
+                         "RecommendedHoleDepth", "MinimumWallThickness"]
+    result += ["HeadDiameter", "HeadHeight", "SocketAcrossFlats", "TapDrillDiameter"]
+    return result + (["CountersinkAngle"] if kind == "countersunk" else [])
 
 
 def number(value, label):
@@ -65,26 +82,44 @@ def validate_library(data):
         for attr in ("label", "standard", "size"):
             if not isinstance(item.get(attr), str) or not item[attr]:
                 raise ValueError(f"{key}: missing {attr}.")
-        required = ["NominalDiameter", "Pitch"] + (
-            ["NutAcrossFlats", "NutHeight"] if kind == "hex_nut"
-            else ["HeadDiameter", "HeadHeight", "SocketAcrossFlats", "TapDrillDiameter"])
-        if kind == "countersunk":
-            required.append("CountersinkAngle")
         dims = item.get("dimensions", {})
-        for name in required:
+        if not isinstance(dims, dict):
+            raise ValueError(f"{key}: dimensions must be an object.")
+        for name in dimension_fields(kind):
             if number(dims.get(name), f"{key}.{name}") <= 0:
                 raise ValueError(f"{key}.{name} must be positive.")
         if kind == "countersunk" and not 0 < dims["CountersinkAngle"] < 180:
             raise ValueError(f"{key}: countersink angle must be between 0 and 180 degrees.")
+        if kind == "heat_insert":
+            for attr in ("manufacturer", "model"):
+                if not isinstance(item.get(attr), str) or not item[attr]:
+                    raise ValueError(f"{key}: missing {attr}.")
+            calculate(item, {key: 0 for key, _, _ in fields(kind)})
+    if not isinstance(data.get("upgrades", []), list):
+        raise ValueError("Library upgrades must be a list.")
     return data
 
 
 def load_library(user_dir):
     path = Path(user_dir) / "library.json"
+    bundled = read_json(Path(__file__).with_name("library.json"))
     if not path.exists():
-        bundled = Path(__file__).with_name("library.json")
-        write_json(path, read_json(bundled))
-    return validate_library(read_json(path))
+        write_json(path, bundled)
+    data = validate_library(read_json(path))
+    if INSERT_UPGRADE not in data.get("upgrades", []):
+        # Record the migration in the same atomic write as its additions. A user
+        # can then remove an insert intentionally without it returning next load.
+        ids = {item["id"] for item in data["items"]}
+        data["items"].extend(copy.deepcopy(item) for item in bundled["items"]
+                             if item["kind"] == "heat_insert" and item["id"] not in ids)
+        sources = data.setdefault("sources", [])
+        urls = {source.get("url") for source in sources}
+        sources.extend(copy.deepcopy(source) for source in bundled["sources"]
+                       if source["standard"] == "CNC Kitchen" and source["url"] not in urls)
+        data.setdefault("upgrades", []).append(INSERT_UPGRADE)
+        validate_library(data)
+        write_json(path, data)
+    return data
 
 
 def allowances(item, overrides=None):
@@ -108,6 +143,13 @@ def calculate(item, offsets=None):
         d["NutPocketDepth"] = d["NutHeight"] + a["NutDepthAllowance"]
         if d["LooseFitAcrossFlats"] < d["PressFitAcrossFlats"]:
             raise ValueError("Loose-fit pocket must be at least as wide as the press-fit pocket.")
+    elif item["kind"] == "heat_insert":
+        d["InsertHoleDiameter"] = d["RecommendedHoleDiameter"] + a["InsertDiameterAllowance"]
+        d["InsertPocketDepth"] = d["RecommendedHoleDepth"] + a["InsertDepthAllowance"]
+        if not d["NominalDiameter"] < d["InsertHoleDiameter"] < d["InsertOutsideDiameter"]:
+            raise ValueError("Insert installation-hole diameter must be between the thread and outside diameters.")
+        if d["InsertPocketDepth"] < d["InsertLength"]:
+            raise ValueError("Insert pocket depth must be at least the insert length.")
     else:
         d["TapHoleDiameter"] = d["TapDrillDiameter"] + a["TapHoleAllowance"]
         d["HeadPocketDiameter"] = d["HeadDiameter"] + a["HeadDiameterAllowance"]
@@ -130,10 +172,15 @@ def calculate(item, offsets=None):
 def load_preferences(user_dir):
     path = Path(user_dir) / "allowances.json"
     if not path.exists():
-        return {"version": 1, "items": {}, "selected": []}
+        return {"version": 1, "items": {}, "selected": [],
+                "short_object_names": True, "short_dimension_names": True}
     data = read_json(path)
     if not isinstance(data, dict) or data.get("version") != 1 or not isinstance(data.get("items"), dict):
         raise ValueError(f"Invalid allowances file: {path}")
     if not isinstance(data.get("selected", []), list):
         raise ValueError(f"Invalid selection list: {path}")
+    for key in ("short_object_names", "short_dimension_names"):
+        data.setdefault(key, True)
+        if not isinstance(data[key], bool):
+            raise ValueError(f"Invalid naming setting {key}: {path}")
     return data

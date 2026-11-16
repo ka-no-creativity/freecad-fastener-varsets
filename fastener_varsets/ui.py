@@ -74,7 +74,7 @@ class FastenerDialog(QtWidgets.QDialog):
         self.current_key = None
         self.widgets = {}
         self.setWindowTitle("Adjust fastener allowances" if self.editing else "Fastener VarSets")
-        self.resize(1020, 760)
+        self.resize(1120, 820)
         layout = QtWidgets.QVBoxLayout(self)
         intro = QtWidgets.QLabel("Check the items to create. Select a row to adjust that item's allowances.\n"
                                 "Each allowance is a TOTAL addition: M4 + 1 mm = a 5 mm hole. Negative values make a pocket smaller."
@@ -83,6 +83,19 @@ class FastenerDialog(QtWidgets.QDialog):
                                 "Each allowance is a TOTAL addition. Other projects and base library values stay independent.")
         intro.setWordWrap(True)
         layout.addWidget(intro)
+        if not self.editing:
+            naming = QtWidgets.QHBoxLayout()
+            self.short_object_names = QtWidgets.QCheckBox("Short object names")
+            self.short_dimension_names = QtWidgets.QCheckBox("Short dimension names")
+            self.short_object_names.setToolTip("Use names such as M3_Cap, M3_Csk, M3_Nut and M3_Heat for new VarSets.")
+            self.short_dimension_names.setToolTip("Use concise cutout names such as HoleDia, HeadDepth and InsertDia. Full explanations remain in tooltips.")
+            for widget, key in ((self.short_object_names, "short_object_names"),
+                                (self.short_dimension_names, "short_dimension_names")):
+                widget.setChecked(self.preferences[key])
+                widget.toggled.connect(self.update_preview)
+                naming.addWidget(widget)
+            naming.addStretch()
+            layout.addLayout(naming)
         splitter = QtWidgets.QSplitter()
         layout.addWidget(splitter, 1)
         left = QtWidgets.QWidget()
@@ -119,10 +132,11 @@ class FastenerDialog(QtWidgets.QDialog):
         self.detail = QtWidgets.QLabel()
         self.detail.setWordWrap(True)
         right_layout.addWidget(self.detail)
-        self.preview = QtWidgets.QTableWidget(0, 2)
-        self.preview.setHorizontalHeaderLabels(["Dimension", "Result"])
+        self.preview = QtWidgets.QTableWidget(0, 3)
+        self.preview.setHorizontalHeaderLabels(["Dimension", "Result", "Expression name"])
         self.preview.horizontalHeader().setStretchLastSection(True)
-        self.preview.setColumnWidth(0, 235)
+        self.preview.setColumnWidth(0, 205)
+        self.preview.setColumnWidth(1, 90)
         self.preview.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
         self.preview.verticalHeader().setVisible(False)
         right_layout.addWidget(self.preview, 1)
@@ -130,14 +144,14 @@ class FastenerDialog(QtWidgets.QDialog):
         self.validation.setWordWrap(True)
         right_layout.addWidget(self.validation)
         splitter.addWidget(right)
-        splitter.setSizes([350, 630])
+        splitter.setSizes([300, 800])
         self.footer = QtWidgets.QLabel()
         self.footer.setWordWrap(True)
         layout.addWidget(self.footer)
         buttons = QtWidgets.QHBoxLayout()
         buttons.addStretch()
         if not self.editing:
-            remember = QtWidgets.QPushButton("Save allowances only")
+            remember = QtWidgets.QPushButton("Save settings only")
             remember.clicked.connect(self.remember_only)
             buttons.addWidget(remember)
         cancel = QtWidgets.QPushButton("Cancel")
@@ -233,8 +247,11 @@ class FastenerDialog(QtWidgets.QDialog):
         kind = entry["item"]["kind"]
         self.detail.setText(
             "Nut fit allowances apply across FLATS. Diameters across CORNERS are calculated from the resulting hexagon.\n"
-            "For Sketcher's polygon circumradius use LooseFitDiameter / 2 or PressFitDiameter / 2."
+            "For Sketcher's polygon circumradius use half the loose or press pocket diameter."
             if kind == "hex_nut" else
+            "CNC Kitchen standard-length insert. Installation-hole diameter must stay between the thread and outside diameters.\n"
+            "Base blind-hole depth is insert length + 1 mm; the pocket must remain at least as deep as the insert."
+            if kind == "heat_insert" else
             "Countersink depth and mouth diameter stay consistent with the head angle. Extra depth also widens the mouth.\n"
             "Tap hole = base cutting-tap drill + this item's tap allowance."
             if kind == "countersunk" else
@@ -259,10 +276,24 @@ class FastenerDialog(QtWidgets.QDialog):
         # Cutout dimensions first, followed by the unmodified library dimensions.
         base = entry["item"]["dimensions"]
         ordered = [key for key in result if key not in base] + list(base)
+        if self.editing:
+            object_name = entry["object"].Name
+        else:
+            object_name = io.object_name(entry["item"], self.short_object_names.isChecked())
+            if self.doc:
+                object_name = self.doc.getUniqueObjectName(object_name)
         for i, key in enumerate(ordered):
             label = " ".join(re.findall("[A-Z][a-z]*|[0-9]+", key))
-            self.preview.setItem(i, 0, QtWidgets.QTableWidgetItem(label))
+            description = io.DOCS.get(key, key)
+            dimension = QtWidgets.QTableWidgetItem(label)
+            dimension.setToolTip(description)
+            self.preview.setItem(i, 0, dimension)
             self.preview.setItem(i, 1, QtWidgets.QTableWidgetItem(f'{result[key]:.3f} {"°" if key == "CountersinkAngle" else "mm"}'))
+            name = (io.existing_property(entry["object"], key) if self.editing else
+                    io.property_name(key, self.short_dimension_names.isChecked()))
+            reference = QtWidgets.QTableWidgetItem(f"{object_name}.{name}")
+            reference.setToolTip(description)
+            self.preview.setItem(i, 2, reference)
 
     def save_preferences(self):
         data = copy.deepcopy(self.preferences)
@@ -271,6 +302,8 @@ class FastenerDialog(QtWidgets.QDialog):
                 data["items"][entry["item"]["id"]] = entry["offsets"]
         if not self.editing:
             data["selected"] = [key for key, entry in self.entries.items() if entry["checked"]]
+            data["short_object_names"] = self.short_object_names.isChecked()
+            data["short_dimension_names"] = self.short_dimension_names.isChecked()
         lib.write_json(user_dir() / "allowances.json", data)
         self.preferences = data
 
@@ -279,7 +312,7 @@ class FastenerDialog(QtWidgets.QDialog):
             for entry in self.entries.values():
                 lib.calculate(entry["item"], entry["offsets"])
             self.save_preferences()
-            self.footer.setText("Saved per-item allowances for next time. No project objects were changed.")
+            self.footer.setText("Saved per-item allowances and naming settings for next time. No project objects were changed.")
         except Exception as exc:
             error(exc, self)
 
@@ -305,7 +338,9 @@ class FastenerDialog(QtWidgets.QDialog):
             else:
                 if self.doc is None:
                     self.doc = App.newDocument("Fasteners")
-                result = io.create_fasteners(self.doc, [(entry["item"], entry["offsets"]) for entry in checked])
+                result = io.create_fasteners(self.doc, [(entry["item"], entry["offsets"]) for entry in checked],
+                                             short_object_names=self.short_object_names.isChecked(),
+                                             short_dimension_names=self.short_dimension_names.isChecked())
             select_created(result)
             self.accept()
         except Exception as exc:
